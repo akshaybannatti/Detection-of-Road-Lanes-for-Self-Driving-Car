@@ -13,6 +13,6 @@ Project Under Construction
          (iv) Need to find a subtle way of indicating road change.
          (vi) Devised a better algorithm for it
          (vi) I should improve the algorithm. 
-         (vii) 
+         (vii) Algorithm can be better, to make it faster and efficient.
 
 To be continued...
