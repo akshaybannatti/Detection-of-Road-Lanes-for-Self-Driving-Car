@@ -11,8 +11,9 @@ Project Under Construction
          (ii) Need to make a different symbol and transparent and efficient detection of cars in lane.
          (iii) Lane changes are also detected somehow. Need to correct that.
          (iv) Need to find a subtle way of indicating road change.
-         (vi) Devised a better algorithm for it
+         (vi) Devised a better algorithm for it.                                       Space Time complexity 
          (vi) I should improve the algorithm. 
          (vii) Algorithm can be better, to make it faster and efficient.
+         (viii) 
 
 To be continued...
