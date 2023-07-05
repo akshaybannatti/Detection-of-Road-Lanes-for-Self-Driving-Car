@@ -10,5 +10,6 @@ Project Under Construction
    note: (i) Even the cars are detected by the lane detection.
          (ii) Need to make a different symbol and transparent and efficient detection of cars in lane.
          (iii) Lane changes are also detected somehow. Need to correct that.
+         (iv) Need to find a subtle way of indicating road change.
 
 To be continued...
