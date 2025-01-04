@@ -1,0 +1,150 @@
+Step 1: Install Dependencies
+Create a requirements.txt file with the following content:
+
+plaintext
+Copy code
+opencv-python
+numpy
+matplotlib
+You can install these dependencies with:
+
+bash
+Copy code
+pip install -r requirements.txt
+Step 2: Basic Lane Detection Setup (lane_detector.py)
+python
+Copy code
+import cv2
+import numpy as np
+
+def region_of_interest(img, vertices):
+    mask = np.zeros_like(img)
+    cv2.fillPoly(mask, vertices, 255)
+    masked_image = cv2.bitwise_and(img, mask)
+    return masked_image
+
+def draw_lines(img, lines, color=(0, 255, 0), thickness=5):
+    for line in lines:
+        for x1, y1, x2, y2 in line:
+            cv2.line(img, (x1, y1), (x2, y2), color, thickness)
+    return img
+
+def process_image(image):
+    # Convert image to grayscale
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    
+    # Gaussian blur to reduce noise
+    blur = cv2.GaussianBlur(gray, (5, 5), 0)
+    
+    # Edge detection using Canny
+    edges = cv2.Canny(blur, 50, 150)
+    
+    # Define region of interest
+    height, width = edges.shape
+    polygons = np.array([[(0, height), (width / 2, height / 2), (width, height)]])
+    roi = region_of_interest(edges, polygons)
+    
+    # Hough Transform to detect lines
+    lines = cv2.HoughLinesP(roi, 1, np.pi / 180, threshold=50, minLineLength=100, maxLineGap=50)
+    
+    # Draw the lines on the original image
+    result_image = draw_lines(image, lines)
+    
+    return result_image
+
+Step 3: Create Helper Functions (utils.py)
+python
+Copy code
+import cv2
+import numpy as np
+
+def show_image(image, window_name="Image"):
+    cv2.imshow(window_name, image)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+def save_image(image, file_name):
+    cv2.imwrite(file_name, image)
+
+Step 4: Main Execution Script (main.py)
+python
+Copy code
+import cv2
+from lane_detection.lane_detector import process_image
+from lane_detection.utils import show_image, save_image
+
+def main():
+    # Load a video or an image
+    video = cv2.VideoCapture("data/test_video.mp4")
+    
+    while video.isOpened():
+        ret, frame = video.read()
+        if not ret:
+            break
+        
+        # Process the frame for lane detection
+        processed_frame = process_image(frame)
+        
+        # Show the processed frame with lane lines
+        show_image(processed_frame, "Lane Detection")
+        
+        # Optionally save the result
+        save_image(processed_frame, "output/frame_with_lanes.jpg")
+    
+    video.release()
+
+if __name__ == "__main__":
+    main()
+Step 5: Add README.md
+Your README.md file can be as simple as:
+
+markdown
+Copy code
+# Lane Detection for Self-Driving Car
+
+This project implements a lane detection system for self-driving cars using computer vision techniques.
+
+## Requirements
+
+- Python 3.x
+- OpenCV
+- NumPy
+- Matplotlib
+
+## How to Run
+
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/yourusername/lane-detection-self-driving.git
+    cd lane-detection-self-driving
+    ```
+2. Install dependencies:
+    ```bash
+    pip install -r requirements.txt
+    ```
+3. Run the project:
+    ```bash
+    python main.py
+    ```
+
+The code will process the video and display lane-detected frames.
+
+## License
+
+This project is licensed under the MIT License.
+Step 6: Push to GitHub
+Create a new repository on GitHub.
+Initialize the repository in your local project directory:
+bash
+Copy code
+git init
+git add .
+git commit -m "Initial commit with lane detection code"
+Add your GitHub repository as a remote:
+bash
+Copy code
+git remote add origin https://github.com/yourusername/lane-detection-self-driving.git
+Push the code to GitHub:
+bash
+Copy code
+git push -u origin master
